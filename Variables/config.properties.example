@@ -1,0 +1,11 @@
+# Aemet API_KEY https://opendata.aemet.es/centrodedescargas/inicio
+api_key=
+
+# Días entre cada llamada al API
+step_days=1000
+
+# Datos de acceso a mongoDB
+mongo_ip=
+mongo_port=27017
+mongo_user=
+mongo_pass=
