@@ -453,6 +453,45 @@
     </hop>
   </order>
   <step>
+    <name>Add constants</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>lastDateKey</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>last_date</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>352</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>MongoDB input</name>
     <type>MongoDbInput</type>
     <description/>
@@ -463,8 +502,8 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <hostname>localhost</hostname>
-    <port>27017</port>
+    <hostname>${mongo_ip}</hostname>
+    <port>${mongo_port}</port>
     <use_all_replica_members>N</use_all_replica_members>
     <db_name>aemetData</db_name>
     <fields_name/>
@@ -473,9 +512,9 @@
     <json_query>{$sort:{fecha: -1}},
 {$limit : 1}
 </json_query>
-    <auth_database/>
-    <auth_user/>
-    <auth_password>Encrypted </auth_password>
+    <auth_database>admin</auth_database>
+    <auth_user>${mongo_user}</auth_user>
+    <auth_password>${mongo_pass}</auth_password>
     <auth_mech/>
     <auth_kerberos>N</auth_kerberos>
     <connect_timeout/>
@@ -605,45 +644,6 @@
     </remotesteps>
     <GUI>
       <xloc>464</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Add constants</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>lastDateKey</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>last_date</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>352</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>

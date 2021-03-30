@@ -9,3 +9,7 @@ mongo_ip=
 mongo_port=27017
 mongo_user=
 mongo_pass=
+
+# Notificaciones telegram
+tgm_token=
+tgm_channel=
