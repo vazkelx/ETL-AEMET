@@ -1,1 +1,1 @@
-D:\Pentaho\kitchen.bat /file:"C:\Users\adria\Documents\GitHub\ETL-AEMET\Job Aemet.kjb" /job:Job Aemet.kjb /level:Error
+"D:\Pentaho 9.1\kitchen.bat" /file:"C:\Proyectos\ETL-AEMET\Job Aemet.kjb" /job:Job Aemet.kjb /level:Error
