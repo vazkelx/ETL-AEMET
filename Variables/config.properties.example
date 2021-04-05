@@ -2,13 +2,15 @@
 api_key=
 
 # Días entre cada llamada al API
-step_days=1000
+step_days=31
+max_date=1967-01-01
 
-# Datos de acceso a mongoDB
-mongo_ip=
-mongo_port=27017
-mongo_user=
-mongo_pass=
+# Datos de acceso a MS SQL Server
+mssql_ip=
+mssql_port=1433
+mssql_dbname=
+mssql_user=
+mssql_pass=
 
 # Notificaciones telegram
 tgm_token=

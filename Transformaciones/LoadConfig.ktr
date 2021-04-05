@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>SaveLastExecutionDate</name>
+    <name>Load config</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -427,9 +428,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2021/03/28 23:17:04.503</created_date>
+    <created_date>2021/01/02 15:27:19.122</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/03/28 23:17:04.503</modified_date>
+    <modified_date>2021/01/02 15:27:19.122</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -437,24 +438,19 @@
   </notepads>
   <order>
     <hop>
-      <from>Select values</from>
-      <to>Properties output</to>
+      <from>Property input</from>
+      <to>set variables</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>MongoDB input</from>
-      <to>Add constants</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Add constants</from>
-      <to>Select values</to>
+      <from>Property input 2</from>
+      <to>set variables</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Add constants</name>
-    <type>Constant</type>
+    <name>Property input</name>
+    <type>PropertyInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -463,20 +459,64 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <file_type>property</file_type>
+    <encoding>UTF-8</encoding>
+    <include>N</include>
+    <include_field/>
+    <filename_Field/>
+    <rownum>N</rownum>
+    <isaddresult>Y</isaddresult>
+    <filefield>N</filefield>
+    <rownum_field/>
+    <resetrownumber>N</resetrownumber>
+    <resolvevaluevariable>N</resolvevaluevariable>
+    <ini_section>N</ini_section>
+    <ini_section_field/>
+    <section/>
+    <file>
+      <name>${Internal.Entry.Current.Directory}\..\Variables\config.properties</name>
+      <exclude_filemask/>
+      <filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
     <fields>
       <field>
-        <name>lastDateKey</name>
+        <name>Key</name>
+        <column>key</column>
         <type>String</type>
         <format/>
+        <length>-1</length>
+        <precision>-1</precision>
         <currency/>
         <decimal/>
         <group/>
-        <nullif>last_date</nullif>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>Value</name>
+        <column>value</column>
+        <type>String</type>
+        <format/>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
+        <currency/>
+        <decimal/>
+        <group/>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
     </fields>
+    <limit>0</limit>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -486,14 +526,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>96</yloc>
+      <xloc>288</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>MongoDB input</name>
-    <type>MongoDbInput</type>
+    <name>Property input 2</name>
+    <type>PropertyInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -502,76 +542,64 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <hostname>${mongo_ip}</hostname>
-    <port>${mongo_port}</port>
-    <use_all_replica_members>N</use_all_replica_members>
-    <db_name>aemetData</db_name>
-    <fields_name/>
-    <collection>data</collection>
-    <json_field_name>json</json_field_name>
-    <json_query>{$sort:{fecha: -1}},
-{$limit : 1}
-</json_query>
-    <auth_database>admin</auth_database>
-    <auth_user>${mongo_user}</auth_user>
-    <auth_password>${mongo_pass}</auth_password>
-    <auth_mech/>
-    <auth_kerberos>N</auth_kerberos>
-    <connect_timeout/>
-    <socket_timeout/>
-    <use_ssl_socket_factory>N</use_ssl_socket_factory>
-    <read_preference>primary</read_preference>
-    <output_json>N</output_json>
-    <query_is_pipeline>Y</query_is_pipeline>
-    <execute_for_each_row>N</execute_for_each_row>
-    <mongo_fields>
-      <mongo_field>
-        <field_name>fecha</field_name>
-        <field_path>fecha</field_path>
-        <field_type>Date</field_type>
-      </mongo_field>
-    </mongo_fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>256</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Properties output</name>
-    <type>PropertyOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <keyfield>lastDateKey</keyfield>
-    <valuefield>today</valuefield>
-    <comment/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
+    <file_type>property</file_type>
+    <encoding>UTF-8</encoding>
+    <include>N</include>
+    <include_field/>
+    <filename_Field/>
+    <rownum>N</rownum>
+    <isaddresult>Y</isaddresult>
+    <filefield>N</filefield>
+    <rownum_field/>
+    <resetrownumber>N</resetrownumber>
+    <resolvevaluevariable>N</resolvevaluevariable>
+    <ini_section>N</ini_section>
+    <ini_section_field/>
+    <section/>
     <file>
-      <name>${Internal.Entry.Current.Directory}\Variables\lastDate</name>
-      <extention>properties</extention>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <create_parent_folder>N</create_parent_folder>
-      <addtoresult>N</addtoresult>
-      <append>N</append>
+      <name>${Internal.Entry.Current.Directory}\..\Variables\lastDate.properties</name>
+      <exclude_filemask/>
+      <filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
     </file>
+    <fields>
+      <field>
+        <name>Key</name>
+        <column>key</column>
+        <type>String</type>
+        <format/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <currency/>
+        <decimal/>
+        <group/>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>Value</name>
+        <column>value</column>
+        <type>String</type>
+        <format/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <currency/>
+        <decimal/>
+        <group/>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+    </fields>
+    <limit>0</limit>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -581,14 +609,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>576</xloc>
-      <yloc>96</yloc>
+      <xloc>288</xloc>
+      <yloc>272</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
+    <name>set variables</name>
+    <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -597,43 +625,17 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <fields>
-      <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>fecha</name>
-        <rename>today</rename>
-        <type>Date</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask>yyyy-MM-dd</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-      <meta>
-        <name>lastDateKey</name>
-        <rename>lastDateKey</rename>
-        <type>None</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-    </fields>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+setVariable(Key,Value,"r");</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -643,8 +645,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>96</yloc>
+      <xloc>416</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

@@ -9,6 +9,11 @@
     <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
+      <parameter>
+        <name>step_days</name>
+        <default_value>1000</default_value>
+        <description/>
+      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -436,6 +441,65 @@
   </info>
   <notepads>
   </notepads>
+  <connection>
+    <name>MS SQL NUC Dev</name>
+    <server>192.168.1.215</server>
+    <type>MSSQLNATIVE</type>
+    <access>Native</access>
+    <database>aemetDB</database>
+    <port>1433</port>
+    <username>aemetUser</username>
+    <password>Encrypted 2dfc098833dd0c78f9120bc748ab7bff1</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>MSSQLUseIntegratedSecurity</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
+        <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>1433</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <order>
     <hop>
       <from>Select values 2</from>
@@ -453,53 +517,8 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Replace in string</from>
-      <to>Concat fields</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Generate rows</from>
-      <to>Get today's date</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>CPython Script Executor 2</from>
-      <to>Filter rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Filter rows</from>
-      <to>Text file output</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Filter rows</from>
       <to>Select values 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Modified JavaScript value</from>
-      <to>Split field to rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Modified JavaScript value</from>
-      <to>Split field to rows 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Split field to rows</from>
-      <to>Merge join</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Split field to rows 2</from>
-      <to>Merge join</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Merge join</from>
-      <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -518,28 +537,108 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>Generate rows</from>
+      <to>Get today's date</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>Concat fields</from>
-      <to>Join rows (cartesian product)</to>
+      <to>Insert / update</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Join rows (cartesian product)</from>
-      <to>MongoDB output</to>
+      <from>Telegram notification</from>
+      <to>Abort 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Get variables 2</from>
-      <to>Join rows (cartesian product)</to>
+      <from>Select values</from>
+      <to>Telegram notification</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Modified JavaScript value</from>
+      <to>Telegram notification</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows</from>
+      <to>Text file output</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Text file output</from>
-      <to>Abort</to>
+      <to>Filter rows 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Replace in string</from>
+      <to>Select values 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows 2</from>
+      <to>Telegram notification</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values 3</from>
+      <to>Concat fields</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>JSON input 2</from>
+      <to>Telegram notification</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>JSON input</from>
+      <to>Telegram notification</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Replace in string</from>
+      <to>Telegram notification</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values 3</from>
+      <to>Telegram notification</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Insert / update</from>
+      <to>Telegram notification</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Modified JavaScript value</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows 2</from>
+      <to>Get variables 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get variables 2</from>
+      <to>Modified JavaScript value 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>CPython Script Executor 2</from>
+      <to>Set variables</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Set variables</from>
+      <to>Filter rows</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Abort</name>
+    <name>Abort 2</name>
     <type>Abort</type>
     <description/>
     <distribute>Y</distribute>
@@ -562,8 +661,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1104</xloc>
-      <yloc>528</yloc>
+      <xloc>1216</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -591,7 +690,7 @@ import pandas as pd
 
 """ Get AEMET endpoints """
 if variables.date_from[0] != "":
-	responseEndpoints = requests.get("https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/"+str(variables.date_from[0])+"T00:00:00UTC/fechafin/"+str(variables.date_to[0])+"T00:00:00UTC/estacion/8019?api_key="+ variables.api_key[0], stream=True)
+	responseEndpoints = requests.get("https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/"+str(variables.date_from[0])+"T00:00:00UTC/fechafin/"+str(variables.date_to[0])+"T00:00:00UTC/todasestaciones?api_key="+ variables.api_key[0], stream=True)
 
 
 endpoints = json.loads(responseEndpoints.text)
@@ -639,8 +738,8 @@ else:
       </output>
     </remotesteps>
     <GUI>
-      <xloc>944</xloc>
-      <yloc>304</yloc>
+      <xloc>704</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -725,8 +824,8 @@ else:
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1600</xloc>
-      <yloc>304</yloc>
+      <xloc>1904</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -769,8 +868,52 @@ else:
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1104</xloc>
-      <yloc>304</yloc>
+      <xloc>912</xloc>
+      <yloc>400</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter rows 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Get variables 2</send_true_to>
+    <send_false_to>Telegram notification</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>endpointResponseCode</leftvalue>
+        <function>=</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>String</type>
+          <text>429</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask/>
+        </value>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1024</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -801,8 +944,8 @@ else:
       </output>
     </remotesteps>
     <GUI>
-      <xloc>64</xloc>
-      <yloc>304</yloc>
+      <xloc>48</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -810,7 +953,7 @@ else:
     <name>Get today's date</name>
     <type>SystemInfo</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -832,8 +975,8 @@ else:
       </output>
     </remotesteps>
     <GUI>
-      <xloc>176</xloc>
-      <yloc>304</yloc>
+      <xloc>160</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -885,6 +1028,18 @@ else:
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
+      <field>
+        <name>max_date</name>
+        <variable>${max_date}</variable>
+        <type>Date</type>
+        <format>yyyy-MM-dd</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -895,8 +1050,8 @@ else:
       </output>
     </remotesteps>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>304</yloc>
+      <xloc>256</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -913,46 +1068,10 @@ else:
     </partitioning>
     <fields>
       <field>
-        <name>mongo_ip</name>
-        <variable>${mongo_ip}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>mongo_user</name>
-        <variable>${mongo_user}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>mongo_pass</name>
-        <variable>${mongo_pass}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>mongo_port</name>
-        <variable>${mongo_port}</variable>
-        <type>String</type>
-        <format/>
+        <name>last_date</name>
+        <variable>${last_date}</variable>
+        <type>Date</type>
+        <format>yyyy-MM-dd</format>
         <currency/>
         <decimal/>
         <group/>
@@ -970,8 +1089,121 @@ else:
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1600</xloc>
-      <yloc>192</yloc>
+      <xloc>1120</xloc>
+      <yloc>288</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Insert / update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>MS SQL NUC Dev</connection>
+    <commit>1000</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>dbo</schema>
+      <table>Histórico</table>
+      <key>
+        <name>key</name>
+        <field>_key</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>Fecha</name>
+        <rename>fecha</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>_idNodo</name>
+        <rename>indicativo</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Altitud</name>
+        <rename>altitud</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Temperatura_media</name>
+        <rename>tmed</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Precipitación</name>
+        <rename>prec</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Temperatura_minima</name>
+        <rename>tmin</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Temperatura_minima_hora</name>
+        <rename>horatmin</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Temperatura_maxima</name>
+        <rename>tmax</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Temperatura_maxima_hora</name>
+        <rename>horatmax</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Viento_velocidad_media</name>
+        <rename>velmedia</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Viento_velocidad_maxima</name>
+        <rename>racha</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Insolación</name>
+        <rename>sol</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Presion_maxima</name>
+        <rename>presMax</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Presion_minima</name>
+        <rename>presMin</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>_key</name>
+        <rename>key</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>2032</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1021,7 +1253,7 @@ else:
       <field>
         <name>indicativo</name>
         <path>indicativo</path>
-        <type>Integer</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1034,10 +1266,10 @@ else:
       <field>
         <name>altitud</name>
         <path>altitud</path>
-        <type>Integer</type>
+        <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>,</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -1047,10 +1279,10 @@ else:
       <field>
         <name>tmed</name>
         <path>tmed</path>
-        <type>String</type>
+        <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>,</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -1063,7 +1295,7 @@ else:
         <type>String</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>,</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -1073,10 +1305,10 @@ else:
       <field>
         <name>tmin</name>
         <path>tmin</path>
-        <type>String</type>
+        <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>,</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -1099,7 +1331,7 @@ else:
       <field>
         <name>tmax</name>
         <path>tmax</path>
-        <type>String</type>
+        <type>Number</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1123,25 +1355,12 @@ else:
         <repeat>N</repeat>
       </field>
       <field>
-        <name>dir</name>
-        <path>dir</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
         <name>velmedia</name>
         <path>velmedia</path>
-        <type>String</type>
+        <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>,</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -1151,23 +1370,10 @@ else:
       <field>
         <name>racha</name>
         <path>racha</path>
-        <type>String</type>
+        <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>horaracha</name>
-        <path>horaracha</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
+        <decimal>,</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -1177,10 +1383,10 @@ else:
       <field>
         <name>sol</name>
         <path>sol</path>
-        <type>String</type>
+        <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>,</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -1190,23 +1396,10 @@ else:
       <field>
         <name>presMax</name>
         <path>presMax</path>
-        <type>String</type>
+        <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>horaPresMax</name>
-        <path>horaPresMax</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
+        <decimal>,</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -1216,23 +1409,10 @@ else:
       <field>
         <name>presMin</name>
         <path>presMin</path>
-        <type>String</type>
+        <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>horaPresMin</name>
-        <path>horaPresMin</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
+        <decimal>,</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -1261,8 +1441,8 @@ else:
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1408</xloc>
-      <yloc>304</yloc>
+      <xloc>1584</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1270,7 +1450,7 @@ else:
     <name>JSON input 2</name>
     <type>JsonInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1331,79 +1511,8 @@ else:
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1296</xloc>
-      <yloc>304</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Join rows (cartesian product)</name>
-    <type>JoinRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <cache_size>500</cache_size>
-    <main/>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue/>
-        <function>=</function>
-        <rightvalue/>
-      </condition>
-    </compare>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1760</xloc>
-      <yloc>304</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Merge join</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>INNER</join_type>
-    <step1>Split field to rows</step1>
-    <step2>Split field to rows 2</step2>
-    <keys_1>
-      <key>date_from_n</key>
-    </keys_1>
-    <keys_2>
-      <key>date_to_n</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>656</xloc>
-      <yloc>304</yloc>
+      <xloc>1472</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1424,41 +1533,77 @@ else:
       <jsScript>
         <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>
-var auxDate = last_date;
-
-var dates_from = ""
-var dates_to = ""
+        <jsScript_script>var date_from = ""
+var date_to = ""
 
 
+if(max_date == null){
+	max_date = today;
+}
 
-do{
+
+if(dateDiff(last_date, max_date, "d") > step_days-5) {
+	date_from = date2str(last_date,"yyyy-MM-dd")
+	date_to = date2str(dateAdd(last_date, "d", step_days),"yyyy-MM-dd")
+	setVariable("more_data","true","r")
+	setVariable("last_date",date2str(dateAdd(last_date, "d", step_days+1),"yyyy-MM-dd"),"r")
+
+} else {
+	date_from = date2str(dateAdd(last_date, "d", -5),"yyyy-MM-dd")
+	date_to = date2str(max_date,"yyyy-MM-dd")
+	setVariable("more_data","false","r")
+}
+
+
+
+/*
+while(dateDiff(auxDate, max_date, "d") > step_days){
 	dates_from += date2str(auxDate,"yyyy-MM-dd") + ","
 	dates_to +=  date2str(dateAdd(auxDate, "d", step_days),"yyyy-MM-dd") + ","
+	auxDate = dateAdd(auxDate, "d", step_days+1)	
+} 
 
-	auxDate = dateAdd(auxDate, "d", step_days)
-	
-} while(dateDiff(auxDate, today, "d") > step_days)
+dates_from += date2str(auxDate,"yyyy-MM-dd")
+dates_to +=  date2str(dateAdd(auxDate, "d", step_days),"yyyy-MM-dd")
 
-
-dates_from = dates_from.substring(0, dates_from.length - 1);
-dates_to = dates_to.substring(0, dates_to.length - 1);
-
-</jsScript_script>
+*/</jsScript_script>
+      </jsScript>
+      <jsScript>
+        <jsScript_type>-1</jsScript_type>
+        <jsScript_name>setVariable_Sample</jsScript_name>
+        <jsScript_script>// Set a Value as Kettle/Pentaho variable
+// 
+// Usage:
+// setVariable(var,var,var);
+// 1: String - The name of the variable to set.
+// 2: Variable - The value which should be assigned
+// 3: Type - "s"ystem, "r"oot, "p"arent, "g"randparent. Upto which
+//           level the variable is set.
+//
+// 2007-07-27
+//
+var strVarName="setEnvTest";
+var strVarValue="123456";
+Alert(getVariable(strVarName, ""));
+setVariable(strVarName,strVarValue, "r");
+Alert(getVariable(strVarName, ""));
+strVarValue="654321";
+setVariable(strVarName,strVarValue, "r");
+Alert(getVariable(strVarName, ""));</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
       <field>
-        <name>dates_from</name>
-        <rename>dates_from</rename>
+        <name>date_from</name>
+        <rename>date_from</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
       </field>
       <field>
-        <name>dates_to</name>
-        <rename>dates_to</rename>
+        <name>date_to</name>
+        <rename>date_to</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -1474,247 +1619,85 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>304</yloc>
+      <xloc>368</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>MongoDB output</name>
-    <type>MongoDbOutput</type>
+    <name>Modified JavaScript value 2</name>
+    <type>ScriptValueMod</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <mongo_host>${mongo_ip}</mongo_host>
-    <mongo_port>${mongo_port}</mongo_port>
-    <use_all_replica_members>N</use_all_replica_members>
-    <mongo_auth_database>admin</mongo_auth_database>
-    <mongo_user>${mongo_user}</mongo_user>
-    <mongo_password>${mongo_pass}</mongo_password>
-    <auth_mech/>
-    <auth_kerberos>N</auth_kerberos>
-    <mongo_db>aemetData</mongo_db>
-    <mongo_collection>data</mongo_collection>
-    <batch_insert_size>1000</batch_insert_size>
-    <connect_timeout/>
-    <socket_timeout/>
-    <use_ssl_socket_factory>N</use_ssl_socket_factory>
-    <read_preference>primary</read_preference>
-    <write_concern>1</write_concern>
-    <w_timeout/>
-    <journaled_writes>N</journaled_writes>
-    <truncate>N</truncate>
-    <update>Y</update>
-    <upsert>Y</upsert>
-    <multi>N</multi>
-    <modifier_update>N</modifier_update>
-    <write_retries>0</write_retries>
-    <write_retry_delay>10</write_retry_delay>
-    <mongo_fields>
-      <mongo_field>
-        <incoming_field_name>key</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>N</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Insert</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>fecha</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>N</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Insert</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>indicativo</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Insert</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>altitud</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>tmed</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>prec</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>tmin</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>horatmin</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>tmax</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>horatmax</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>dir</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>velmedia</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>racha</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>horaracha</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>sol</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>presMax</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>horaPresMax</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>presMin</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-      <mongo_field>
-        <incoming_field_name>horaPresMin</incoming_field_name>
-        <mongo_doc_path/>
-        <use_incoming_field_name_as_mongo_field_name>Y</use_incoming_field_name_as_mongo_field_name>
-        <update_match_field>Y</update_match_field>
-        <modifier_update_operation>N/A</modifier_update_operation>
-        <modifier_policy>Update</modifier_policy>
-        <json_field>N</json_field>
-        <allow_null>N</allow_null>
-      </mongo_field>
-    </mongo_fields>
-    <mongo_indexes>
-      <mongo_index>
-        <path_to_fields>key</path_to_fields>
-        <drop>N</drop>
-        <unique>Y</unique>
-        <sparse>N</sparse>
-      </mongo_index>
-    </mongo_indexes>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>setVariable("last_date",date2str(dateAdd(last_date, "d", (step_days+1)*-1),"yyyy-MM-dd"),"r")
+
+
+/*
+while(dateDiff(auxDate, max_date, "d") > step_days){
+	dates_from += date2str(auxDate,"yyyy-MM-dd") + ","
+	dates_to +=  date2str(dateAdd(auxDate, "d", step_days),"yyyy-MM-dd") + ","
+	auxDate = dateAdd(auxDate, "d", step_days+1)	
+} 
+
+dates_from += date2str(auxDate,"yyyy-MM-dd")
+dates_to +=  date2str(dateAdd(auxDate, "d", step_days),"yyyy-MM-dd")
+
+*/</jsScript_script>
+      </jsScript>
+      <jsScript>
+        <jsScript_type>-1</jsScript_type>
+        <jsScript_name>setVariable_Sample</jsScript_name>
+        <jsScript_script>// Set a Value as Kettle/Pentaho variable
+// 
+// Usage:
+// setVariable(var,var,var);
+// 1: String - The name of the variable to set.
+// 2: Variable - The value which should be assigned
+// 3: Type - "s"ystem, "r"oot, "p"arent, "g"randparent. Upto which
+//           level the variable is set.
+//
+// 2007-07-27
+//
+var strVarName="setEnvTest";
+var strVarValue="123456";
+Alert(getVariable(strVarName, ""));
+setVariable(strVarName,strVarValue, "r");
+Alert(getVariable(strVarName, ""));
+strVarValue="654321";
+setVariable(strVarName,strVarValue, "r");
+Alert(getVariable(strVarName, ""));</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>date_from</name>
+        <rename>date_from</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>date_to</name>
+        <rename>date_to</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1724,8 +1707,8 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1920</xloc>
-      <yloc>304</yloc>
+      <xloc>1248</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1733,7 +1716,7 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
     <name>Replace in string</name>
     <type>ReplaceString</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1741,42 +1724,6 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       <schema_name/>
     </partitioning>
     <fields>
-      <field>
-        <in_stream_name>horaPresMax</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>Varias</replace_string>
-        <replace_by_string/>
-        <set_empty_string>Y</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-      <field>
-        <in_stream_name>horaPresMin</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>Varias</replace_string>
-        <replace_by_string/>
-        <set_empty_string>Y</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-      <field>
-        <in_stream_name>horaracha</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>Varias</replace_string>
-        <replace_by_string/>
-        <set_empty_string>Y</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
       <field>
         <in_stream_name>horatmax</in_stream_name>
         <out_stream_name/>
@@ -1801,6 +1748,18 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
         <case_sensitive>no</case_sensitive>
         <is_unicode>no</is_unicode>
       </field>
+      <field>
+        <in_stream_name>prec</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>Ip</replace_string>
+        <replace_by_string>0</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1811,8 +1770,8 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1504</xloc>
-      <yloc>304</yloc>
+      <xloc>1680</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1848,8 +1807,8 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       </output>
     </remotesteps>
     <GUI>
-      <xloc>784</xloc>
-      <yloc>304</yloc>
+      <xloc>544</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1879,14 +1838,14 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1200</xloc>
-      <yloc>304</yloc>
+      <xloc>1024</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Split field to rows</name>
-    <type>SplitFieldToRows3</type>
+    <name>Select values 3</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>N</distribute>
     <custom_distribution/>
@@ -1895,13 +1854,26 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <splitfield>dates_from</splitfield>
-    <delimiter>,</delimiter>
-    <newfield>date_from</newfield>
-    <rownum>Y</rownum>
-    <rownum_field>date_from_n</rownum_field>
-    <resetrownumber>Y</resetrownumber>
-    <delimiter_is_regex>N</delimiter_is_regex>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>prec</name>
+        <rename>prec</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1911,14 +1883,14 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       </output>
     </remotesteps>
     <GUI>
-      <xloc>544</xloc>
-      <yloc>256</yloc>
+      <xloc>1792</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Split field to rows 2</name>
-    <type>SplitFieldToRows3</type>
+    <name>Set variables</name>
+    <type>SetVariable</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1927,13 +1899,15 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <splitfield>dates_to</splitfield>
-    <delimiter>,</delimiter>
-    <newfield>date_to</newfield>
-    <rownum>Y</rownum>
-    <rownum_field>date_to_n</rownum_field>
-    <resetrownumber>Y</resetrownumber>
-    <delimiter_is_regex>N</delimiter_is_regex>
+    <fields>
+      <field>
+        <field_name>endpointResponseCode</field_name>
+        <variable_name>${endpointResponseCode}</variable_name>
+        <variable_type>ROOT_JOB</variable_type>
+        <default_value/>
+      </field>
+    </fields>
+    <use_formatting>Y</use_formatting>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1943,8 +1917,73 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       </output>
     </remotesteps>
     <GUI>
-      <xloc>544</xloc>
-      <yloc>352</yloc>
+      <xloc>832</xloc>
+      <yloc>400</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Telegram notification</name>
+    <type>TransExecutor</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <specification_method>filename</specification_method>
+    <trans_object_id/>
+    <trans_name/>
+    <filename>${Internal.Entry.Current.Directory}/../../Pentaho-Telegram-notification/notify-telegram.ktr</filename>
+    <directory_path/>
+    <group_size>1</group_size>
+    <group_field/>
+    <group_time/>
+    <parameters>
+      <variablemapping>
+        <variable>body</variable>
+        <field/>
+        <input>Error en la obtención de los datos de AEMET</input>
+      </variablemapping>
+      <variablemapping>
+        <variable>title</variable>
+        <field/>
+        <input>ERROR</input>
+      </variablemapping>
+      <inherit_all_vars>Y</inherit_all_vars>
+    </parameters>
+    <execution_result_target_step/>
+    <execution_time_field>ExecutionTime</execution_time_field>
+    <execution_result_field>ExecutionResult</execution_result_field>
+    <execution_errors_field>ExecutionNrErrors</execution_errors_field>
+    <execution_lines_read_field>ExecutionLinesRead</execution_lines_read_field>
+    <execution_lines_written_field>ExecutionLinesWritten</execution_lines_written_field>
+    <execution_lines_input_field>ExecutionLinesInput</execution_lines_input_field>
+    <execution_lines_output_field>ExecutionLinesOutput</execution_lines_output_field>
+    <execution_lines_rejected_field>ExecutionLinesRejected</execution_lines_rejected_field>
+    <execution_lines_updated_field>ExecutionLinesUpdated</execution_lines_updated_field>
+    <execution_lines_deleted_field>ExecutionLinesDeleted</execution_lines_deleted_field>
+    <execution_files_retrieved_field>ExecutionFilesRetrieved</execution_files_retrieved_field>
+    <execution_exit_status_field>ExecutionExitStatus</execution_exit_status_field>
+    <execution_log_text_field>ExecutionLogText</execution_log_text_field>
+    <execution_log_channelid_field>ExecutionLogChannelId</execution_log_channelid_field>
+    <result_rows_target_step/>
+    <result_files_target_step/>
+    <result_files_file_name_field>FileName</result_files_file_name_field>
+    <executors_output_step/>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1024</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2012,12 +2051,108 @@ dates_to = dates_to.substring(0, dates_to.length - 1);
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1104</xloc>
-      <yloc>432</yloc>
+      <xloc>912</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step_error_handling>
+    <error>
+      <source_step>Insert / update</source_step>
+      <target_step>Telegram notification</target_step>
+      <is_enabled>Y</is_enabled>
+      <nr_valuename/>
+      <descriptions_valuename/>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
+    <error>
+      <source_step>JSON input</source_step>
+      <target_step>Telegram notification</target_step>
+      <is_enabled>Y</is_enabled>
+      <nr_valuename/>
+      <descriptions_valuename/>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
+    <error>
+      <source_step>JSON input 2</source_step>
+      <target_step>Telegram notification</target_step>
+      <is_enabled>Y</is_enabled>
+      <nr_valuename/>
+      <descriptions_valuename/>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
+    <error>
+      <source_step>Modified JavaScript value</source_step>
+      <target_step>Telegram notification</target_step>
+      <is_enabled>Y</is_enabled>
+      <nr_valuename/>
+      <descriptions_valuename/>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
+    <error>
+      <source_step>Replace in string</source_step>
+      <target_step>Telegram notification</target_step>
+      <is_enabled>Y</is_enabled>
+      <nr_valuename/>
+      <descriptions_valuename/>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
+    <error>
+      <source_step>Select values</source_step>
+      <target_step>Telegram notification</target_step>
+      <is_enabled>Y</is_enabled>
+      <nr_valuename/>
+      <descriptions_valuename/>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
+    <error>
+      <source_step>Select values 2</source_step>
+      <target_step>Telegram notification</target_step>
+      <is_enabled>N</is_enabled>
+      <nr_valuename/>
+      <descriptions_valuename/>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
+    <error>
+      <source_step>Select values 3</source_step>
+      <target_step>Telegram notification</target_step>
+      <is_enabled>Y</is_enabled>
+      <nr_valuename/>
+      <descriptions_valuename/>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
   </step_error_handling>
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
